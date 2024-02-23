@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Usuario.addUsuario(new Cliente("carlos", "carlos", "123"));
         Usuario.addUsuario(new Atendente("victor", "victor", "1234"));
-        Usuario.addUsuario(new Bibliotecario("karo", "karol", "12345"));
+        Usuario.addUsuario(new Bibliotecario("karol", "karol", "12345"));
         Midia.addMidia(new Livro("Cronicas de Nárnia", 128));
         Midia.addMidia(new DVD("Frozen 3", 320));
         Midia.addMidia(new Revista("Panini", 872));
@@ -87,8 +87,7 @@ public class Main {
                 if(usuarioLogado instanceof Bibliotecario) {
                     System.out.print("""
                             11- Cadastrar midias
-                            12- Remover midia
-                            
+                            12- Remover midia   
                             """);
                 }
             }
@@ -144,6 +143,10 @@ public class Main {
     public static void consultarMidia(){
         System.out.println("Digite o codigo da midia");
         int codigo = sc.nextInt();
+        if(Midia.procurarMidia(codigo) == null){
+            System.out.println("Midia inexistente no sistema!");
+            return;
+        }
         System.out.println(usuarioLogado.consultarMidia(codigo));
     }
     public static void removerUsuario(){
@@ -204,6 +207,7 @@ public class Main {
     public static void cadastroMidia(){
         System.out.print("Nome da midia: ");
         String nome = sc.nextLine();
+        String nome1 = sc.nextLine();
         if(Midia.procurarMidia(nome) != null){
             System.out.println("Midia já existente!");
             return;
