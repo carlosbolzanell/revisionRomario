@@ -167,22 +167,19 @@ public class Main {
             System.out.println("Midia inexistente no sistema!");
             return;
         }
+        System.out.println("Midia: " + Midia.procurarMidia(codigo).toString());
         if(Midia.procurarMidia(codigo).isEmprestado()){
             System.out.println("Midia indisponivel para emprestimo");
             return;
         }
         System.out.print("Usuario para emprestimo: ");
         String usuario = sc.next();
-        if(Midia.procurarMidia(codigo) != null || Usuario.getUsuario(usuario) != null){
-            Funcionario funcionario = (Funcionario)usuarioLogado;
-            if(funcionario.emprestarMidia(Midia.procurarMidia(codigo), Usuario.getUsuario(usuario))){
-                System.out.println("Midia emprestada com sucesso!");
-            }else{
-                System.out.println("Midia não disponível para emprestimo");
-            }
-        }else{
-            System.out.println("Dados incorretos");
+        if(Usuario.getUsuario(usuario) == null){
+            System.out.println("Usuário inexistente");
+            return;
         }
+        ((Funcionario)usuarioLogado).emprestarMidia(Midia.procurarMidia(codigo), Usuario.getUsuario(usuario));
+        System.out.println("Midia emprestada com sucesso!");
     }
     public static void devolverMidia(){
         System.out.print("Codigo da midia: ");
@@ -191,9 +188,14 @@ public class Main {
             System.out.println("Midia inexistente no sistema!");
             return;
         }
+        if(!Midia.procurarMidia(codigo).isEmprestado()){
+            System.out.println("Midia indisponivel para devolução");
+            return;
+        }
+        System.out.println("Midia: " + Midia.procurarMidia(codigo).toString());
         System.out.print("Usuario para devolução: ");
         String usuario = sc.next();
-        if(Midia.procurarMidia(codigo) != null || Usuario.getUsuario(usuario) != null){
+        if(Usuario.getUsuario(usuario) != null){
             Funcionario funcionario = (Funcionario)usuarioLogado;
             if(funcionario.devolverMidia(Midia.procurarMidia(codigo), Usuario.getUsuario(usuario))){
                 System.out.println("Midia devolvida com sucesso!");
@@ -201,7 +203,7 @@ public class Main {
                 System.out.println("Midia não disponível nos itens do usuario");
             }
         }else{
-            System.out.println("Dados incorretos");
+            System.out.println("Usuário inexistente");
         }
     }
     public static void cadastroMidia(){
